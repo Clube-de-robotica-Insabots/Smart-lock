@@ -1,3 +1,5 @@
+from time import sleep
+
 import RPi.GPIO as GPIO
 class Bolt:
     def __init__(self, relay_a, relay_b,limit_switch_pin_1,limit_switch_pin_2):
@@ -17,16 +19,30 @@ class Bolt:
     def __is_closed(self):
         return GPIO.input(self._limit_switch_end) == GPIO.LOW
 
-    def abrir(self):
+    def __go_forward(self):
+        GPIO.output(self._relay_1_pin, GPIO.HIGH)
+        GPIO.output(self._relay_2_pin, GPIO.LOW)
+
+    def __go_backward(self):
+        GPIO.output(self._relay_1_pin, GPIO.LOW)
+        GPIO.output(self._relay_2_pin, GPIO.HIGH)
+
+    def __stop(self):
+        GPIO.output(self._relay_1_pin, GPIO.LOW)
+        GPIO.output(self._relay_2_pin, GPIO.LOW)
+
+    def open(self):
         if self.__is_closed():
-            GPIO.output(self._relay_1_pin, GPIO.HIGH)
-            GPIO.output(self._relay_2_pin, GPIO.LOW)
+            self.__go_backward()
+            sleep(2)
+            self.__stop()
         else:
             pass
 
-    def fechar(self):
+    def close(self):
         if self.__is_open():
-            GPIO.output(self._relay_1_pin, GPIO.LOW)
-            GPIO.output(self._relay_2_pin, GPIO.HIGH)
+            self.__go_forward()
+            sleep(2)
+            self.__stop()
         else:
             pass
