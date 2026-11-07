@@ -18,9 +18,15 @@ class Bolt:
         return GPIO.input(self._limit_switch_end) == GPIO.LOW
 
     def abrir(self):
-        GPIO.output(self._relay_1_pin, GPIO.HIGH)
-        GPIO.output(self._relay_2_pin, GPIO.LOW)
+        if self.__is_closed():
+            GPIO.output(self._relay_1_pin, GPIO.HIGH)
+            GPIO.output(self._relay_2_pin, GPIO.LOW)
+        else:
+            pass
 
     def fechar(self):
-        GPIO.output(self._relay_1_pin, GPIO.LOW)
-        GPIO.output(self._relay_2_pin, GPIO.HIGH)
+        if self.__is_open():
+            GPIO.output(self._relay_1_pin, GPIO.LOW)
+            GPIO.output(self._relay_2_pin, GPIO.HIGH)
+        else:
+            pass
