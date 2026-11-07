@@ -1,0 +1,3 @@
+- adicionar classe da fechadura
+- adicionar classe da tela oled
+- configurar a logica inicial do main.py
