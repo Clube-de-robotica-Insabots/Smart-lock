@@ -1,9 +1,6 @@
 from time import sleep
-
 from .rfid import Rfid
 from .bolt import Bolt
-import os as OS
-from pathlib import Path
 
 class Lock:
     def __init__(self, relay_a_pin, relay_b_pin, limit_switch_open_pin, limit_switch_close_pin):
@@ -21,5 +18,10 @@ class Lock:
         self.lock()
 
     def try_unlock(self):
-        pass
+        uid = self._card_reader.read_uid()
+        if #aqui entrara a função do pacote auth que está em desenvolvimento:
+            self.__unlock()
+            return True
+        else:
+            return False
 
