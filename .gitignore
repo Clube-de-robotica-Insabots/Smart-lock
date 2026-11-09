@@ -10,3 +10,5 @@ __pycache__/
 
 #Variaveis de ambiente
 .env
+
+data/
