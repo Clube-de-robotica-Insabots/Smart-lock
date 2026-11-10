@@ -4,4 +4,4 @@ class Rfid:
         self._reader = SimpleMFRC522()
 
     def read_uid(self):
-        return self._reader.read_id()
+        return self._reader.read_id_no_block()

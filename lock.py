@@ -1,3 +1,4 @@
+import logging
 from time import sleep
 from hardware.rfid import Rfid
 from hardware.bolt import Bolt
@@ -10,6 +11,7 @@ class Lock:
 
     def __unlock(self):
         self._bolt.open()
+        logging.
 
     def lock(self):
         self._bolt.close()
@@ -20,9 +22,13 @@ class Lock:
 
     def try_unlock(self):
         uid = self._card_reader.read_uid()
-        if self._authenticator.is_authorized(uid):
+        if uid is None:
+            return False
+        elif self._authenticator.is_authorized(uid):
             self.__unlock()
+            self._relock_after_delay(5000)
             return True
         else:
+            logging.warning(f"Acesso negado: {uid}")
             return False
 
