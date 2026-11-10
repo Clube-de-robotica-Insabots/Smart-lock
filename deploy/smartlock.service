@@ -1,0 +1,22 @@
+# Serviço systemd da fechadura do clube Insabots.
+#
+# Instalação no Raspberry Pi:
+#   sudo cp deploy/smartlock.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now smartlock
+#
+# Troque "pi" e /home/pi/Smart-lock se o usuário ou a pasta forem outros.
+
+[Unit]
+Description=Smart Lock - fechadura RFID do clube Insabots
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/fechadura/Smart-lock
+ExecStart=/home/fechadura/Smart-lock/.venv/bin/python -u main.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
