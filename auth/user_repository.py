@@ -21,6 +21,9 @@ class UserRepository:
             users.append(user)
         return users
 
+    def list_all(self):
+        return self._load_users()
+
     def find_by_uid(self, uid):
         users = self._load_users()
         for user in users:
