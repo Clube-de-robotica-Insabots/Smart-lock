@@ -11,7 +11,6 @@ class Lock:
 
     def __unlock(self):
         self._bolt.open()
-        logging.
 
     def lock(self):
         self._bolt.close()
