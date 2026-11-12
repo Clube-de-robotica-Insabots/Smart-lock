@@ -5,6 +5,9 @@ class BoltJammedError(Exception):
 
 RELAY_ON = GPIO.HIGH
 RELAY_OFF = GPIO.LOW
+# Os fins de curso estão ligados no NC: apertado abre o contato e o pull-up leva o pino para HIGH.
+# Se um fio soltar, o pino também fica HIGH e o motor para (falha segura).
+SWITCH_PRESSED = GPIO.HIGH
 TIMEOUT_SECONDS = 5
 POLL_INTERVAL_SECONDS = 0.01
 
@@ -21,10 +24,10 @@ class Bolt:
         GPIO.setup(self._relay_b_pin, GPIO.OUT)
 
     def is_open(self):
-        return GPIO.input(self._limit_switch_open) == GPIO.LOW
+        return GPIO.input(self._limit_switch_open) == SWITCH_PRESSED
 
     def is_closed(self):
-        return GPIO.input(self._limit_switch_close) == GPIO.LOW
+        return GPIO.input(self._limit_switch_close) == SWITCH_PRESSED
 
     def __go_forward(self):
         GPIO.output(self._relay_a_pin, RELAY_ON)
