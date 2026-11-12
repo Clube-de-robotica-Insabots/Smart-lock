@@ -1,7 +1,7 @@
 import logging
 from time import sleep
 from hardware.rfid import Rfid
-from hardware.bolt import Bolt
+from hardware.bolt import Bolt, BoltJammedError
 
 RELOCK_DELAY_SECONDS = 5
 
@@ -27,9 +27,14 @@ class Lock:
         if uid is None:
             return False
         elif self._authenticator.is_authorized(uid):
-            self.__unlock()
-            self._relock_after_delay(RELOCK_DELAY_SECONDS)
             logging.warning(f"Acesso concedido: {uid}")
+            try:
+                self.__unlock()
+                self._relock_after_delay(RELOCK_DELAY_SECONDS)
+            except BoltJammedError:
+                # Sem isso o serviço cai e a fechadura fica parada até o systemd reiniciar.
+                logging.error("A trava emperrou ou não chegou ao fim de curso a tempo")
+                return False
             return True
         else:
             logging.warning(f"Acesso negado: {uid}")
