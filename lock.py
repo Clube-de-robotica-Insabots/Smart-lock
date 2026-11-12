@@ -3,6 +3,9 @@ from time import sleep
 from hardware.rfid import Rfid
 from hardware.bolt import Bolt
 
+RELOCK_DELAY_SECONDS = 5
+
+
 class Lock:
     def __init__(self, relay_a_pin, relay_b_pin, limit_switch_open_pin, limit_switch_close_pin, authenticator):
         self._card_reader = Rfid()
@@ -25,10 +28,17 @@ class Lock:
             return False
         elif self._authenticator.is_authorized(uid):
             self.__unlock()
-            self._relock_after_delay(5000)
-            logging.debug(f"Acesso concedido: {uid}")
+            self._relock_after_delay(RELOCK_DELAY_SECONDS)
+            logging.warning(f"Acesso concedido: {uid}")
             return True
         else:
-            logging.debug(f"Acesso negado: {uid}")
+            logging.warning(f"Acesso negado: {uid}")
             return False
+
+    def cleanup(self):
+        # Para o motor e devolve os pinos, mesmo se uma das etapas falhar.
+        try:
+            self._bolt.cleanup()
+        finally:
+            self._card_reader.close()
 

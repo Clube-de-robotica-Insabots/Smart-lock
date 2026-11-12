@@ -61,3 +61,12 @@ class Bolt:
     def close(self):
         self.__move(self.__go_forward, self.is_closed)
 
+    def cleanup(self):
+        self.__stop()
+        GPIO.cleanup([
+            self._relay_a_pin,
+            self._relay_b_pin,
+            self._limit_switch_open,
+            self._limit_switch_close,
+        ])
+

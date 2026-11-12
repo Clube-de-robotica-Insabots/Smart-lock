@@ -5,3 +5,7 @@ class Rfid:
 
     def read_uid(self):
         return self._reader.read_id_no_block()
+
+    def close(self):
+        # Fecha a conexão SPI e libera o pino de reset do leitor.
+        self._reader.READER.Close_MFRC522()
