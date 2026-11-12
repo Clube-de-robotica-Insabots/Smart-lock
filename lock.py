@@ -26,8 +26,9 @@ class Lock:
         elif self._authenticator.is_authorized(uid):
             self.__unlock()
             self._relock_after_delay(5000)
+            logging.debug(f"Acesso concedido: {uid}")
             return True
         else:
-            logging.warning(f"Acesso negado: {uid}")
+            logging.debug(f"Acesso negado: {uid}")
             return False
 
