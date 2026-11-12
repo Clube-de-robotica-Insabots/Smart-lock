@@ -12,7 +12,7 @@ class Lock:
         self._bolt = Bolt(relay_a_pin, relay_b_pin, limit_switch_open_pin, limit_switch_close_pin)
         self._authenticator = authenticator
 
-    def __unlock(self):
+    def unlock(self):
         self._bolt.open()
 
     def lock(self):
