@@ -27,12 +27,12 @@ class Bolt:
         return GPIO.input(self._limit_switch_close) == GPIO.LOW
 
     def __go_forward(self):
-        GPIO.output(self._relay_a_pin, RELAY_ON)
-        GPIO.output(self._relay_b_pin, RELAY_OFF)
-
-    def __go_backward(self):
         GPIO.output(self._relay_a_pin, RELAY_OFF)
         GPIO.output(self._relay_b_pin, RELAY_ON)
+
+    def __go_backward(self):
+        GPIO.output(self._relay_a_pin, RELAY_ON)
+        GPIO.output(self._relay_b_pin, RELAY_OFF)
 
     def __stop(self):
         GPIO.output(self._relay_a_pin, RELAY_OFF)
